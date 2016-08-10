@@ -1,0 +1,154 @@
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.gemmyBorder {
+    border: 1px solid #717100;
+}
+
+.noBG {
+    background: none;
+}
+
+/* TO-FIX:Cannot get both display inline-block and align center*/
+#container {
+    /*width: 700px;*/
+    background-color:#f3f3ca;
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+canvas {
+    background: white;
+}
+
+#package, #masterCase{
+    border: 1px dashed red; /* temp */
+    /*max-width: 400px;*/
+    /*height: 300px;*/
+    display: inline-block;
+    margin: 0;
+    padding: 5px;
+}
+
+
+#qtyByCover {
+    border: 1px dashed blue;
+    width: 60px;
+    height: 20px;
+    display: inline-block;
+    background-color: white;
+    text-align: center;
+}
+#qtyByCover div {
+    font-weight: normal;
+    position: relative;
+    z-index: 2;
+    transition: all .5s ease;
+}
+#qtyEff {
+    width: 60px;
+    height: 20px;
+    border: 10px solid red;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 1;
+    transition: all .5s ease;
+}
+#qtyByCover:hover #qtyEff {
+    border: 0px solid #f3f3ca;
+}
+#qtyByCover:hover div {
+    
+}
+
+#qty1, #qty2 {
+    width: 16px;
+}
+
+
+/*****************
+ * Table things
+ *****************/
+table, tr, td{
+    border: 1px solid #717100;
+    border-spacing: 0;
+    border-collapse: collapse;
+    padding: 2px;
+}
+table {
+    font-weight: bold;
+    font-size: 8pt;
+    color:  #4f5A02;
+    /*height: 200px;  /* temp */
+}
+
+
+.legend div, .divTable div {
+    height: 20px;
+    padding: 2px;
+}
+.legend {
+    width: 78px;
+}
+.legend div{
+    vertical-align: middle;
+    float: left;
+}
+.divTable {
+    padding: inherit;
+}
+.divTable span {
+    display: inline-block;
+    width: 20px;
+}
+
+
+
+/* Modifier */
+#modBtn {
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+}
+
+
+
+label {
+    width: 90px;
+    display: inline-block;
+}
+
+input {
+    width: 50px;
+    border: 1px solid #B9B956;
+    color: black;
+}
+
+/* Magic thing that remove the range buttons on cube inputs */
+.noRange::-webkit-outer-spin-button, .noRange::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance:textfield;
+    margin: 0;
+}
+/*.noRange {
+    -webkit-appearance: none;
+    -moz-appearance:textfield;
+}*/
+
+
+/* Button options */
+#options {
+    text-align: center;
+    padding: 5px 10px;
+}
+
+.flatbutton {
+    width: 200px;
+    border: 1px solid black;
+    color: black;
+    font-size: 0.9em;
+    background-color: #D7D6A3;
+}

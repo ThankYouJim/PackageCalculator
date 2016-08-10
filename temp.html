@@ -1,0 +1,25 @@
+﻿
+    <input name="GIMItemConfig:txtItemImperialLength:txtNumeric" type="text" value="44.4881" maxlength="12" id="GIMItemConfig_txtItemImperialLength_txtNumeric" class="flatbox"
+           onkeypress="CheckNumeric()"
+           onchange="subConvertINtoC(this, 'GIMItemConfig_txtItemMetricLength_txtNumeric');
+                     subCalcItemCube()"
+           onblur="CheckNValue(this,false)">
+
+
+<input name="GIMItemConfig:txtItemMetricWeight:txtNumeric"
+    onkeypress="CheckNumeric()" 
+    onchange="subConvertKGStoLBS(this, 'GIMItemConfig_txtItemImperialWeight_txtNumeric');
+        subCalcCaseCube();"
+    onblur="CheckNValue(this, false)">
+
+
+
+
+$(document).ready(function () {
+        $("#btnExport").click(function () {
+            $("#tblExport").btechco_excelexport({
+                containerid: "tblExport"
+               , datatype: $datatype.Table
+            });
+        });
+    });
