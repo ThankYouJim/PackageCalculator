@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <canvas id="axisCanvas">Your browser does not support Canvas</canvas>
+
+    <script>
+
+var bgColor = "rgb(50, 50, 50)";
+var red = "rgb(255, 0, 0)";
+var green = "rgb(0, 255, 0)";
+var blue = "rgb(0, 0, 255)";
+
+var a = document.getElementById('axisCanvas');
+a.setAttribute('width', 500);
+a.setAttribute('height', 500);
+var c = a.getContext('2d');
+    w = a.width,
+    h = a.height;
+console.log("W:" + w + "H:" + h);
+
+function Point3D(x,y,z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+
+    this.rotateX = function (angle) {
+        var rad, cosa, sina, y, z;
+        rad = angle * Math.PI / 180;
+        cosa = Math.cos(rad);
+        sina = Math.sin(rad);
+        y = this.y * cosa - this.z * sina;
+        z = this.y * sina + this.z * cosa;
+        return new Point3D(this.x, y, z);
+    }
+
+    this.rotateY = function (angle) {
+        var rad, cosa, sina, x, z;
+        rad = angle * Math.PI / 180;
+        cosa = Math.cos(rad);
+        sina = Math.sin(rad);
+        z = this.z * cosa - this.x * sina;
+        x = this.z * sina + this.x * cosa;
+        return new Point3D(x, this.y, z);
+    }
+
+    this.rotateZ = function (angle) {
+        var rad, cosa, sina, x, y;
+        rad = angle * Math.PI / 180;
+        cosa = Math.cos(rad);
+        sina = Math.sin(rad);
+        x = this.x * cosa - this.y * sina;
+        y = this.x * sina + this.y * cosa;
+        return new Point3D(x, y, this.z);
+    }
+
+    this.project = function (viewWidth, viewHeight, fov, viewDistance) {
+        var factor, x, y;
+        factor = fov / (viewDistance + this.z);
+        x = this.x * factor + viewWidth / 2;
+        y = this.y * factor + viewHeight / 2;
+        return new Point3D(x, y, this.z);
+    }
+}
+
+//var Origin = new Point3D(0,0,0);
+var axis_vertices = [
+    new Point3D(0,0,0),
+    new Point3D(1,0,0),
+    new Point3D(0,1,0),
+    new Point3D(0,0,1)
+];
+
+function drawPoint(c, x, y, size, color) {
+    c.save();
+    c.beginPath();
+    c.fillStyle = color;
+    c.arc(x, y, size, 0, 2 * Math.PI, true);
+    c.fill();
+    c.restore();
+}
+
+function drawLine(c, p1, p2, width, color) {
+    c.save();
+    c.beginPath();
+    c.moveTo(p1.x, p1.y);
+    c.lineTo(p2.x, p2.y);
+    c.closePath();
+    c.lineWidth = width;
+    c.strokeStyle = color;
+    c.stroke();
+    c.restore();
+}
+
+function Axis() {
+    var pt = { x: 500, y: 200 };
+    drawLine(c, Origin, pt, 5, blue);
+}
+
+
+(function () {
+    if (a.getContext) {
+        c = a.getContext('2d');
+        c.save();
+        c.fillStyle = bgColor;
+        c.fillRect(0, 0, w, h);
+        c.restore();
+        setInterval(render, 30);
+    }
+    else { alert('Cannot get canvas context'); }
+
+})();
+
+var angle = 0;
+function render() {
+    var t = [];
+
+    for (var i = 0; i < axis_vertices.length; i++) {
+        var v = axis_vertices[i];
+        var r = v.rotateX(angle).rotateY(angle).rotateZ(angle);
+        // What I set below is origin to center of the canvas
+        // which for some reason it is not in the center.
+        var p = r.project(w / 2, h / 2, 128, 3.5);
+        t.push(p);
+    }
+
+    // Origin point for reference
+    drawPoint(c, t[0].x, t[0].y, 5, "white");
+
+    // for each axis: which are 3 of them
+    //for (var i = 0; i < 3; i++) {
+    //c.save();
+    //c.moveTo(0, h);
+    //c.translate(10, 10);
+    drawLine(c, t[0], t[1], 1, red);
+    drawLine(c, t[0], t[2], 1, green);
+    drawLine(c, t[0], t[3], 1, blue);
+    //c.restore();
+    //angle += 2;
+    //}
+
+    //Axis();
+
+}
+
+    </script>
+</body>
+</html>
