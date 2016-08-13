@@ -173,6 +173,20 @@
     <script>
         var ele; // I dunno, an var specially for temporary document creation.
 
+        // Global canvas variables
+        var pkgCanvas = {
+            a: document.getElementById('pkgCanvas'),
+            c: a.getContext('2d'),
+            w: a.width,
+            h: a.height
+        };
+        var mstrCanvas = {
+            a: document.getElementById('caseCanvas'),
+            c: a.getContext('2d'),
+            w: a.width,
+            h: a.height
+        };
+
         // Simple objects to store the variables
         var package_CM, package_IN, mCase_CM, mCase_IN;
         var package_CM = {
@@ -183,10 +197,6 @@
         };
 
         mCase_IN = mCase_CM = package_IN = package_CM;
-
-        //$('.input').on('keypress', CheckNumeric());
-        //$('.input').on('blur', CheckNValue($(this), false));
-
 
         //TEST
         //console.log("RoundToNearest:" + RoundToNearest(19999.99));
@@ -304,18 +314,44 @@
         
         //ele = 0; // clear ele
         
+        (function () {
+            if (pkgCanvas.getContext && caseCanvas.getContext) {
 
-        // Global canvas variables
-        var bgCanvas = document.getElementById('caseCanvas');
-        //bgCanvas.setAttribute('width', 400);
-        //bgCanvas.setAttribute('height', 300);
-        var bgContext = bgCanvas.getContext('2d');
+                //setInterval(render, 30);
 
-        var bgCanvas = document.getElementById('pkgCanvas');
-        //bgCanvas.setAttribute('width', 400);
-        //bgCanvas.setAttribute('height', 300);
-        var bgContext = bgCanvas.getContext('2d');
+            }
+            else { alert('Cannot get canvas context'); }
 
+        })();
+
+        var angle = 75;
+        function render() {
+            var t = [];
+
+            pkgContext.clearRect(0, 0, pkgCanvas.width, pkgCanvas.height);
+            //caseContext.clearRect(0, 0, caseCanvas.width, caseCanvas.height);
+
+            for (var i = 0; i < axis_vertices.length; i++) {
+                var v = axis_vertices[i];
+                var r = v.rotateX(angle).rotateY(angle).rotateZ(angle);
+                // What I set below is origin to center of the canvas
+                // which for some reason it is not in the center.
+                var p = r.project(w, h, 128, 3.5);
+                t.push(p);
+            }
+
+            c.save();
+            //c.translate(-w / 2 + 50, h / 2 + 50);
+            // Origin point for reference
+            drawPoint(c, t[0].x, t[0].y, 5, "white");
+
+            // for each axis: which are 3 of them
+            drawLine(c, t[0], t[1], 1, red);
+            drawLine(c, t[0], t[2], 1, green);
+            drawLine(c, t[0], t[3], 1, blue);
+            c.restore();
+            angle += 2;
+        }
 
 
         //$('#saveAsExcelBtn').on('click', function () {
