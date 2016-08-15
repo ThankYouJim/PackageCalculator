@@ -6,29 +6,6 @@ var red = "rgb(255, 0, 0)";
 var green = "rgb(0, 255, 0)";
 var blue = "rgb(0, 0, 255)";
 
-
-//function Canvas(a, c) {
-//    this.a = a;
-//    this.c = c;
-//    this.w = 0;
-//    this.h = 0;
-//    this.color;
-
-//    this.setSize = function(w, h) {
-//        this.w = w;
-//        this.h = h;
-//        this.a.setAttribute('width', w);
-//        this.a.setAttribute('height', h);
-//    };
-//    this.setColor = function(color) {
-//        this.color = color;
-//        this.c.save();
-//        this.c.fillStyle = color;
-//        this.c.fillRect(0, 0, w, h);
-//        this.c.restore();
-//    }
-//};
-
 function Canvas(a, c, w, h, color) {
     this.a = a;
     this.c = c;
@@ -42,6 +19,12 @@ function Canvas(a, c, w, h, color) {
     this.c.fillStyle = color;
     this.c.fillRect(0, 0, w, h);
     this.c.restore();
+
+    this.drawAxis = function (p1, p2, thick) {
+        drawPoint(this.c, p1, p2, 4, "white");
+
+    }
+
 }
 
 function Form() {
@@ -85,6 +68,7 @@ var cube_faces = [[0, 1, 2, 3], [1, 5, 6, 2], [5, 4, 7, 6], [4, 0, 3, 7], [0, 4,
 
 function Point2D(x, y) { /* TODO */ }
 
+// copied from http://codentronix.com/2011/04/27/first-experiment-with-html5-a-wireframe-cube/
 function Point3D(x, y, z) {
     this.x = x;
     this.y = y;

@@ -175,21 +175,50 @@
         //Global Variables
         var modFlag = 0;    // toggle package mod
         var w = 400, h = 200; // width and height for both canvases
+
+        var test = new CanvasForm();
     
         // init()
         (function () {
             // init the modifier tables
             setMod();
-            var test = new CanvasForm();
             var a = document.getElementById('pkgCanvas');
             var c = a.getContext('2d');
-            test.canvas = new Canvas(a, c, w, h, "rgb(255,0,255)");
-            //test.canvas = new Canvas(a, c);
-            //test.canvas.setSize(w, h);
-            //test.canvas.setColor("rgb(50,50,50");
+            test.canvas = new Canvas(a, c, w, h, "white");
 
+            setInterval(render, 30);
 
         })();
+
+
+        var angle = 0;
+        function render() {
+            var t = [];
+
+            // TODO: clear canvas
+            test.canvas.c.clearRect(0, 0, w, h);
+
+            // Calculates new points according to angle and projection
+            for (var i = 0; i < axis_vertices.length; i++) {
+                var v = axis_vertices[i];
+                var r = v.rotateX(angle).rotateY(angle).rotateZ(angle);
+                var p = r.project(w, h, 128, 3.5);
+                t.push(p);
+            }
+
+            test.canvas.c.save();
+            test.canvas.c.translate(-w / 2 + 30, h / 2 - 30);   // move to lower left corner
+            // Origin point for reference
+            drawPoint(test.canvas.c, t[0].x, t[0].y, 4, "white");
+
+            // for each axis: which are 3 of them
+            drawLine(test.canvas.c, t[0], t[1], 1, red);
+            drawLine(test.canvas.c, t[0], t[2], 1, green);
+            drawLine(test.canvas.c, t[0], t[3], 1, blue);
+            test.canvas.c.restore();
+
+            angle += 2;
+        }
 
 
     </script>
