@@ -78,8 +78,8 @@
                     <div id="opt1"></div>
                     <div id="opt3"></div>
                     <div id="opt2"></div>
-                    <button name="modBtn", onclick="setMod()"
-                            id="modBtn" class="gemmyBorder"></button>
+                    <input type="button" name="modBtn" onclick="modFlag = 1 - modFlag; setMod();"
+                            id="modBtn" class="gemmyBorder"/>
                 </div>
                 </td></tr>
 
@@ -161,7 +161,7 @@
         <!-- Save options: as an pop-up excel sheet / screenshot / and a clear button -->
         <div id="options">
             <button type="button" id="saveAsExcelBtn" class="flatbutton">Save As Excel</button>
-            <button type="button" id="saveScreenBtn" class="flatbutton">Save Screen to Clipboard</button>
+            <!--<button type="button" id="saveScreenBtn" class="flatbutton">Save Screen to Clipboard</button>-->
             <button type="reset" class="flatbutton">Clear All</button>
         </div>
 
@@ -169,199 +169,28 @@
 
     <!-- jQuery added just in case of downward compatibility -->
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="js/Gemmy_validation.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/drawPackage.js"></script>
     <script>
-        var ele; // I dunno, an var specially for temporary document creation.
-
-        // Global canvas variables
-        var pkgCanvas = {
-            a: document.getElementById('pkgCanvas'),
-            c: a.getContext('2d'),
-            w: a.width,
-            h: a.height
-        };
-        var mstrCanvas = {
-            a: document.getElementById('caseCanvas'),
-            c: a.getContext('2d'),
-            w: a.width,
-            h: a.height
-        };
-
-        // Simple objects to store the variables
-        var package_CM, package_IN, mCase_CM, mCase_IN;
-        var package_CM = {
-            width: 0,
-            depth: 0,
-            height: 0,
-            cube: 0
-        };
-
-        mCase_IN = mCase_CM = package_IN = package_CM;
-
-        //TEST
-        //console.log("RoundToNearest:" + RoundToNearest(19999.99));
-        //package.width = package.depth = package.height = 50;
-        //var itemCube = RoundToNearest(parseFloat((package.width * package.depth * package.height) / 12));
-        //console.log(itemCube);
-        //itemCube = ToFixed(RoundToNearest(itemCube), 4);
-        //console.log(itemCube);
-
-
-        // All editable inputs will recalculated Imperial to Metric or vice versa on their respective pair.
-        // And recalculates the cube.
-        // TODO: redraw the canvas -> or resave an image and reload page to show the change.
-        $('.cell').on('change', function () {
-            console.log("DEBUG: Inside onchange.");
-
-            // Detects which input is changed and updates the respective object values.
-            switch (this.name) {
-                // PACKAGE : IMPERIAL
-                //case 'pkgW_CM', 'pkgD_CM', 'pkgH_CM':
-                    //subConvertCMtoIN();
-                case 'pkgW_CM': 
-                    package_CM.width = $('#pkgW_CM').val();
-                    break;
-                case 'pkgD_CM':
-                    package_CM.depth = $('#pkgD_CM').val();
-                    break;
-                case 'pkgH_CM':
-                    package_CM.height = $('#pkgH_CM').val();
-                    break;
-
-                // PACKAGE : METRIC
-
-
-                // MASTER CASE : IMPERIAL
-                //case 'masterW_IN', 'masterD_CM', 'masterH_CM':
-                    //subConvertINtoCM();
-                case 'masterW_IN':
-                    mCase_CM.width = $('#masterW_IN').val();
-                    break;
-                case 'masterD_CM':
-                    mCase_CM.depth = $('#masterD_CM').val();
-                    break;
-                case 'masterH_CM':
-                    mCase_CM.height = $('#masterH_CM').val();
-
-                // MASTER CASE : IMPERIAL
-
-
-                default:
-                    break;
-            }
-
-            // Recalculates the cube when the inputs gets changed.
-            if (package_CM.width != 0 && package_CM.depth != 0 && package_CM.height != 0) {
-                var itemCube = RoundToNearest(parseFloat((package_CM.width * package_CM.depth * package_CM.height) / 1000000));
-                // Extra: Round to 4 places max, but if only necessary:
-                // original: Math.round(num * 100) / 100;
-                // itemCube = Math.round((itemCube + 0.00001) * 10000) / 10000
-                itemCube = RoundToNearest(itemCube).toFixed(4);
-                document.getElementById('pkgC_M').value = itemCube;
-                package_CM.cube = itemCube;
-            }
-
-
-            function prepareQtyCover() {
-                cover.style.display = "inline";
-                hide.style.display = "none";
-            }
-            // Magic stuff where when the qty input is clicked, it switch to a split input form
-            // that display x * y value that equals the qty
-            // It is 6(2*3) by default
-            // TODO: smart calculation determine which config formation is optimal (via smaller cubic value?)
-            function setQtyBy() {
-                var cover = document.getElementById('qtyByCover');
-                var hide = document.getElementById('qtyByHidden');
-
-                if (cover.style.display=="inline" && hide.style.display=="none") {
-                    cover.style.display = "none";
-                    hide.style.display = "inline";
-                }
-                else if (cover.style.display == "none" && hide.style.display == "inline") {
-                    cover.style.display = "inline";
-                    hide.style.display = "none";
-                }
-            };
-
-        });
-
-
-        // Modifier buttons: click to switch between i) +1.5, +1.5, +2; ii) +2, +2, +2.5
-        // TODO: A second button let user enters other vales (use pop-up window?)
-        //var modValues = [1.5, 2, 2.5];
-        //var modOpt = document.getElementById('modOpt');
-        //var flag = 1;
-
-        //ele = document.createElement('div');
-        //ele.innerHTML = modValues[flag];
-        //modOpt.appendChild(ele);
-        //ele = document.createElement('div');
-        //ele.innerHTML = modValues[flag];
-        //modOpt.appendChild(ele);
-        //ele = document.createElement('div');
-        //ele.innerHTML = modValues[flag + 1];
-        //modOpt.appendChild(ele);
-
-        //ele = document.createElement('button');
-        //ele.setAttribute('name', 'modBtn');
-        //ele.setAttribute('id', 'modBtn');
-        //ele.setAttribute('class', 'gemmyBorder');
-        //ele.setAttribute('onclick', function () {
-        //    flag = 1 - flag;
-        //});
-        //modOpt.appendChild(ele);
-        
-        //ele = 0; // clear ele
-        
+        //Global Variables
+        var modFlag = 0;    // toggle package mod
+        var w = 400, h = 200; // width and height for both canvases
+    
+        // init()
         (function () {
-            if (pkgCanvas.getContext && caseCanvas.getContext) {
+            // init the modifier tables
+            setMod();
+            var test = new CanvasForm();
+            var a = document.getElementById('pkgCanvas');
+            var c = a.getContext('2d');
+            test.canvas = new Canvas(a, c, w, h, "rgb(255,0,255)");
+            //test.canvas = new Canvas(a, c);
+            //test.canvas.setSize(w, h);
+            //test.canvas.setColor("rgb(50,50,50");
 
-                //setInterval(render, 30);
-
-            }
-            else { alert('Cannot get canvas context'); }
 
         })();
 
-        var angle = 75;
-        function render() {
-            var t = [];
-
-            pkgContext.clearRect(0, 0, pkgCanvas.width, pkgCanvas.height);
-            //caseContext.clearRect(0, 0, caseCanvas.width, caseCanvas.height);
-
-            for (var i = 0; i < axis_vertices.length; i++) {
-                var v = axis_vertices[i];
-                var r = v.rotateX(angle).rotateY(angle).rotateZ(angle);
-                // What I set below is origin to center of the canvas
-                // which for some reason it is not in the center.
-                var p = r.project(w, h, 128, 3.5);
-                t.push(p);
-            }
-
-            c.save();
-            //c.translate(-w / 2 + 50, h / 2 + 50);
-            // Origin point for reference
-            drawPoint(c, t[0].x, t[0].y, 5, "white");
-
-            // for each axis: which are 3 of them
-            drawLine(c, t[0], t[1], 1, red);
-            drawLine(c, t[0], t[2], 1, green);
-            drawLine(c, t[0], t[3], 1, blue);
-            c.restore();
-            angle += 2;
-        }
-
-
-        //$('#saveAsExcelBtn').on('click', function () {
-        //    alert("Excel");
-        //});
-
-        // I dunno man, too hard?
-        //$('#saveScreenBtn').on('click', function () {
-        //    alert('Screenshot');
-        //});
 
     </script>
 

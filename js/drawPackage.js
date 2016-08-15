@@ -6,6 +6,59 @@ var red = "rgb(255, 0, 0)";
 var green = "rgb(0, 255, 0)";
 var blue = "rgb(0, 0, 255)";
 
+
+//function Canvas(a, c) {
+//    this.a = a;
+//    this.c = c;
+//    this.w = 0;
+//    this.h = 0;
+//    this.color;
+
+//    this.setSize = function(w, h) {
+//        this.w = w;
+//        this.h = h;
+//        this.a.setAttribute('width', w);
+//        this.a.setAttribute('height', h);
+//    };
+//    this.setColor = function(color) {
+//        this.color = color;
+//        this.c.save();
+//        this.c.fillStyle = color;
+//        this.c.fillRect(0, 0, w, h);
+//        this.c.restore();
+//    }
+//};
+
+function Canvas(a, c, w, h, color) {
+    this.a = a;
+    this.c = c;
+    this.w = w;
+    this.h = h;
+    this.a.setAttribute('width', w);
+    this.a.setAttribute('height', h);
+
+    this.color = color;
+    this.c.save();
+    this.c.fillStyle = color;
+    this.c.fillRect(0, 0, w, h);
+    this.c.restore();
+}
+
+function Form() {
+    this.w = 0;
+    this.d = 0;
+    this.h = 0;
+    this.cube = 0;
+}
+
+// I dunno what to name this so
+function CanvasForm() {
+    this.canvas;
+    this.form_imperial = new Form();
+    this.form_metric = new Form();
+}
+
+
 // Unlike in C++, the canvas starts the origin on the left upper corner. 
 // Hence, reverse the 1's on y and z
 var axis_vertices = [
