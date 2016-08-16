@@ -1,46 +1,7 @@
-﻿/* Dunno do stuff here */
-
-// Some general variables
-
+﻿// Some general variables
 var red = "rgb(255, 0, 0)";
 var green = "rgb(0, 255, 0)";
 var blue = "rgb(0, 0, 255)";
-
-function Canvas(a, c, w, h, color) {
-    this.a = a;
-    this.c = c;
-    this.w = w;
-    this.h = h;
-    this.a.setAttribute('width', w);
-    this.a.setAttribute('height', h);
-
-    this.color = color;
-    this.c.save();
-    this.c.fillStyle = color;
-    this.c.fillRect(0, 0, w, h);
-    this.c.restore();
-
-    this.drawAxis = function (p1, p2, thick) {
-        drawPoint(this.c, p1, p2, 4, "white");
-
-    }
-
-}
-
-function Form() {
-    this.w = 0;
-    this.d = 0;
-    this.h = 0;
-    this.cube = 0;
-}
-
-// I dunno what to name this so
-function CanvasForm() {
-    this.canvas;
-    this.form_imperial = new Form();
-    this.form_metric = new Form();
-}
-
 
 // Unlike in C++, the canvas starts the origin on the left upper corner. 
 // Hence, reverse the 1's on y and z
@@ -65,6 +26,63 @@ var cube_vertices = [
 // Define the vertices that compose each of the 6 faces. These numbers are
 // indices to the vertex list defined above.
 var cube_faces = [[0, 1, 2, 3], [1, 5, 6, 2], [5, 4, 7, 6], [4, 0, 3, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
+
+// Canvas object to store context and all that jazz. TODO: rename
+function Canvas(a, c, w, h, color) {
+    this.a = a;
+    this.c = c;
+    this.w = w;
+    this.h = h;
+    this.a.setAttribute('width', w);
+    this.a.setAttribute('height', h);
+
+    this.color = color;
+    this.c.save();
+    this.c.fillStyle = color;
+    this.c.fillRect(0, 0, w, h);
+    this.c.restore();
+
+    this.drawAxis = function (t) {
+        this.c.save();
+        this.c.translate(-w / 2 + 30, h / 2 - 30);   // move to lower left corner
+        drawLine(this.c, t[0], t[1], 1, red);
+        drawLine(this.c, t[0], t[2], 1, green);
+        drawLine(this.c, t[0], t[3], 1, blue);
+        this.c.restore();
+    }
+
+    this.drawCube = function (t) {
+        this.c.save();
+        this.c.strokeStyle = "rgb(255,0,255)";
+        for (var i = 0; i < cube_faces.length; i++) {
+            var f = cube_faces[i];
+            this.c.beginPath();
+            this.c.moveTo(t[f[0]].x, t[f[0]].y);
+            this.c.lineTo(t[f[1]].x, t[f[1]].y);
+            this.c.lineTo(t[f[2]].x, t[f[2]].y);
+            this.c.lineTo(t[f[3]].x, t[f[3]].y);
+            this.c.closePath();
+            this.c.stroke();
+        }
+        this.c.restore();
+    }
+}
+
+// Form object to store all config values. TODO: rename
+function Form() {
+    this.w = 0;
+    this.d = 0;
+    this.h = 0;
+    this.cube = 0;
+}
+
+// I dunno what to name this so
+function CanvasForm() {
+    this.canvas;
+    this.form_imperial = new Form();
+    this.form_metric = new Form();
+}
+
 
 function Point2D(x, y) { /* TODO */ }
 
@@ -135,9 +153,4 @@ function drawLine(c, p1, p2, width, color) {
     c.strokeStyle = color;
     c.stroke();
     c.restore();
-}
-
-// TODO: how to draw three at once while taking into account the angle and projection
-function Axis() {
-    //drawLine(c, Origin, pt, 5, blue);
 }

@@ -11,7 +11,6 @@
 
     <div id="container">
         <form>
-
         <!-- TODO: Make an animation of the arrows and change width/depth on click -->
         <div id="flipArrows" style="display: none">
             &#8645;&#x21C5; <!-- up down arrow -->
@@ -23,7 +22,8 @@
             <canvas id="pkgCanvas">Package Canvas</canvas>
 
             <table>
-                <tr><td></td><td colspan="2" align="center">Package</td></tr>
+                <tr><th></th><th colspan="2">Package</th></tr>
+                <!--<tr><td></td><td colspan="2" align="center">Package</td></tr>-->
 
                 <tr>
                 <td><div class="legend">
@@ -72,13 +72,12 @@
                 </div></td>
 
                 <!-- TODO: let user add a height value option -->
-
                 <!-- Mods: i) +1.5, +1.5, +2; ii) +2, +2, +2.5 -->
                 <td><div id="modOpt"class="divTable">
                     <div id="opt1"></div>
                     <div id="opt3"></div>
                     <div id="opt2"></div>
-                    <input type="button" name="modBtn" onclick="modFlag = 1 - modFlag; setMod();"
+                    <input type="button" name="modBtn" onclick="setMod();"
                             id="modBtn" class="gemmyBorder"/>
                 </div>
                 </td></tr>
@@ -90,23 +89,22 @@
             <canvas id="caseCanvas">Master Case Canvas</canvas>
 
             <table>
-                <tr><td></td>
-                <td align="center">
-                    Master Case | Qty: 
+                <tr><th></th>
+                <th>
+                    <span>Master Case | Qty: </span>
 
-                    <div id="qtyByCover">
+                    <div id="qtyBy">
                         <!--<div id="qtyEff"></div>-->
-                        <!--<div>TEST</div>-->
-
+                        <div id="qtyCover">TEST</div>
+                    </div>
 
                         <!--<input name="qty1" type="number" value="2"
-               id="qty1" class="noRange">-->
-                        <!-- Multiply sign. Or use: &#215; -->
+               id="qty1" class="noRange">
+                        <!-- Multiply sign. Or use: &#215; 
                         <!--&times;-->
                         <!--<input name="qty2" type="number" value="3"
                id="qty2" class="noRange">-->
 
-                    </div>
 
 
 
@@ -114,7 +112,7 @@
                     <!--<input name="qtyCover" type="number"
                            id="qtyCover" class=".noRange" readonly/>-->
                     
-                </td></tr>
+                </th></tr>
 
                 <tr>
                 <td><div class="legend">
@@ -169,57 +167,9 @@
 
     <!-- jQuery added just in case of downward compatibility -->
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="js/validation.js"></script>
-    <script src="js/drawPackage.js"></script>
+    <script src="js/form.js"></script>
+    <script src="js/canvas.js"></script>
     <script>
-        //Global Variables
-        var modFlag = 0;    // toggle package mod
-        var w = 400, h = 200; // width and height for both canvases
-
-        var test = new CanvasForm();
-    
-        // init()
-        (function () {
-            // init the modifier tables
-            setMod();
-            var a = document.getElementById('pkgCanvas');
-            var c = a.getContext('2d');
-            test.canvas = new Canvas(a, c, w, h, "white");
-
-            setInterval(render, 30);
-
-        })();
-
-
-        var angle = 0;
-        function render() {
-            var t = [];
-
-            // TODO: clear canvas
-            test.canvas.c.clearRect(0, 0, w, h);
-
-            // Calculates new points according to angle and projection
-            for (var i = 0; i < axis_vertices.length; i++) {
-                var v = axis_vertices[i];
-                var r = v.rotateX(angle).rotateY(angle).rotateZ(angle);
-                var p = r.project(w, h, 128, 3.5);
-                t.push(p);
-            }
-
-            test.canvas.c.save();
-            test.canvas.c.translate(-w / 2 + 30, h / 2 - 30);   // move to lower left corner
-            // Origin point for reference
-            drawPoint(test.canvas.c, t[0].x, t[0].y, 4, "white");
-
-            // for each axis: which are 3 of them
-            drawLine(test.canvas.c, t[0], t[1], 1, red);
-            drawLine(test.canvas.c, t[0], t[2], 1, green);
-            drawLine(test.canvas.c, t[0], t[3], 1, blue);
-            test.canvas.c.restore();
-
-            angle += 2;
-        }
-
 
     </script>
 

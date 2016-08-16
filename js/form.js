@@ -1,7 +1,102 @@
-/*******************************************
- * Modified functions from gemmy.js 
- *******************************************/
-/* Global vars */
+// GLOBAL VARIABLES
+var modFlag = 0;
+var modValues = [1.5, 2, 2.5];
+
+// I guess this is not quite optimal?
+function setMod() {
+    var lo = 0;
+    for (var i = 1; i <= 3; i++) {
+        var opt = document.getElementById('opt' + i);
+        opt.innerHTML = "+" + modValues[lo + modFlag];    // TODO: make nicer
+        lo = 1 - lo;
+    }
+    modFlag = 1 - modFlag;
+}
+
+// Object to store the package/casing values
+function Config() {
+    this.w = 0;
+    this.d = 0;
+    this.h = 0;
+    this.cube = 0;
+}
+var pkg_CM = new Config(), pkg_IN = new Config(), mCase_CM = new Config(), mCase_IN = new Config();
+
+// All editable inputs will recalculated Imperial to Metric or vice versa on their respective pair.
+// And recalculates the cube.
+// TODO: redraw the canvas -> or resave an image and reload page to show the change.
+$('.cell').on('change', function () {
+    console.log("DEBUG: Inside onchange.");
+
+    // Detects which input is changed and updates the respective object values.
+    switch (this.name) {
+        // PACKAGE : IMPERIAL
+        //case 'pkgW_CM', 'pkgD_CM', 'pkgH_CM':
+        //subConvertCMtoIN();
+        case 'pkgW_CM':
+            pkg_CM.w = $('#pkgW_CM').val();
+            break;
+        case 'pkgD_CM':
+            pkg_CM.d = $('#pkgD_CM').val();
+            break;
+        case 'pkgH_CM':
+            pkg_CM.h = $('#pkgH_CM').val();
+            break;
+
+            // PACKAGE : METRIC
+
+
+            // MASTER CASE : IMPERIAL
+            //case 'masterW_IN', 'masterD_CM', 'masterH_CM':
+            //subConvertINtoCM();
+        case 'masterW_IN':
+            mCase_CM.w = $('#masterW_IN').val();
+            break;
+        case 'masterD_CM':
+            mCase_CM.d = $('#masterD_CM').val();
+            break;
+        case 'masterH_CM':
+            mCase_CM.h = $('#masterH_CM').val();
+
+            // MASTER CASE : IMPERIAL
+
+
+        default:
+            break;
+    }
+
+    // Upon getting all 3 figures, calculate the cube of the package and calculates master case
+    if (pkg_CM.w != 0 && pkg_CM.d != 0 && pkg_CM.h != 0) {
+        // Recalculates the cube when the inputs get changed
+        var itemCube = RoundToNearest(parseFloat((pkg_CM.w * pkg_CM.d * pkg_CM.h) / 1000000));
+        // Extra: Round to 4 places max, but if only necessary:
+        // original: Math.round(num * 100) / 100;
+        // itemCube = Math.round((itemCube + 0.00001) * 10000) / 10000
+        itemCube = RoundToNearest(itemCube).toFixed(4);
+        document.getElementById('pkgC_M').value = itemCube;
+        pkg_CM.cube = itemCube;
+
+        // Calculates the Master Case config 
+        var q1, q2;
+        var opt = parseInt(document.getElementById('opt' + 1).innerHTML);
+        mCase_CM.w = pkg_CM.w * q1 + opt;
+        opt = parseInt($('opt' + 2).innerHTML);
+        mCase_CM.d = pkg_CM.d * q2 + opt;;
+        opt = parseInt($('opt' + 3).innerHTML);
+        mCase_CM.h = pkg_CM.h + opt;
+
+    }
+
+});
+
+
+
+
+
+
+
+
+
 /* TODO: change to constant?
  * var constant = function(val) {
  *   return function() {
@@ -17,18 +112,6 @@ var INCHES_IN_FT = 12;
 function subCalcCube() {
     var itemCube = 0;
 
-}
-
-var modValues = [1.5, 2, 2.5];
-// I guess this is not quite optimal?
-function setMod() {
-    var lo = 0;
-    for (var i = 1; i <= 3; i++) {
-        var opt = document.getElementById('opt' + i);
-        opt.innerHTML = "+" + modValues[lo+modFlag];    // TODO: make nicer
-        lo = 1 - lo;
-    }
-    //console.log('Mod: ' + modFlag);
 }
 
 function setQty() {
@@ -196,3 +279,16 @@ function CheckNumeric(isInteger) {
         // discard character
     }
 }
+
+
+
+
+
+
+
+
+// init
+(function () {
+    setMod();
+
+})();

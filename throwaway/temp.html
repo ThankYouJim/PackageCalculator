@@ -37,16 +37,6 @@ $(document).ready(function () {
     var pkgCanvas = document.getElementById('pkgCanvas');
     var caseCanvas = document.getElementById('caseCanvas');
 
-    // Simple objects to store the variables
-    var package_CM, package_IN, mCase_CM, mCase_IN;
-    var package_CM = {
-        width: 0,
-        depth: 0,
-        height: 0,
-        cube: 0
-    };
-
-    mCase_IN = mCase_CM = package_IN = package_CM;
 
     //TEST
     //console.log("RoundToNearest:" + RoundToNearest(19999.99));
@@ -57,59 +47,7 @@ $(document).ready(function () {
     //console.log(itemCube);
 
 
-    // All editable inputs will recalculated Imperial to Metric or vice versa on their respective pair.
-    // And recalculates the cube.
-    // TODO: redraw the canvas -> or resave an image and reload page to show the change.
-    $('.cell').on('change', function () {
-        console.log("DEBUG: Inside onchange.");
 
-        // Detects which input is changed and updates the respective object values.
-        switch (this.name) {
-            // PACKAGE : IMPERIAL
-            //case 'pkgW_CM', 'pkgD_CM', 'pkgH_CM':
-            //subConvertCMtoIN();
-            case 'pkgW_CM':
-                package_CM.width = $('#pkgW_CM').val();
-                break;
-            case 'pkgD_CM':
-                package_CM.depth = $('#pkgD_CM').val();
-                break;
-            case 'pkgH_CM':
-                package_CM.height = $('#pkgH_CM').val();
-                break;
-
-                // PACKAGE : METRIC
-
-
-                // MASTER CASE : IMPERIAL
-                //case 'masterW_IN', 'masterD_CM', 'masterH_CM':
-                //subConvertINtoCM();
-            case 'masterW_IN':
-                mCase_CM.width = $('#masterW_IN').val();
-                break;
-            case 'masterD_CM':
-                mCase_CM.depth = $('#masterD_CM').val();
-                break;
-            case 'masterH_CM':
-                mCase_CM.height = $('#masterH_CM').val();
-
-                // MASTER CASE : IMPERIAL
-
-
-            default:
-                break;
-        }
-
-        // Recalculates the cube when the inputs gets changed.
-        if (package_CM.width != 0 && package_CM.depth != 0 && package_CM.height != 0) {
-            var itemCube = RoundToNearest(parseFloat((package_CM.width * package_CM.depth * package_CM.height) / 1000000));
-            // Extra: Round to 4 places max, but if only necessary:
-            // original: Math.round(num * 100) / 100;
-            // itemCube = Math.round((itemCube + 0.00001) * 10000) / 10000
-            itemCube = RoundToNearest(itemCube).toFixed(4);
-            document.getElementById('pkgC_M').value = itemCube;
-            package_CM.cube = itemCube;
-        }
 
 
         function prepareQtyCover() {
@@ -134,7 +72,6 @@ $(document).ready(function () {
             }
         };
 
-    });
 
 
     // Modifier buttons: click to switch between i) +1.5, +1.5, +2; ii) +2, +2, +2.5
