@@ -22,17 +22,27 @@
             <canvas id="pkgCanvas">Package Canvas</canvas>
 
             <table>
-                <tr><th></th><th colspan="2">Package</th></tr>
+                <tr><<th colspan="2"></th><th colspan="2">Package</th></tr>
                 <!--<tr><td></td><td colspan="2" align="center">Package</td></tr>-->
 
-                <tr>
-                <td><div class="legend">
+                <tr><td>
+                <div class="legend">
                     <div>Width:</div>
                     <div>Depth:</div>
                     <div>Height:</div>
                     <div>Cube:</div>
                 </div></td>
-                
+                   
+                <!-- TODO: let user add a height value option -->
+                <!-- Mods: i) +1.5, +1.5, +2; ii) +2, +2, +2.5 -->
+                <td><div id="modOpt" class="legend">
+                    <div id="opt1"></div>
+                    <div id="opt3"></div>
+                    <div id="opt2"></div>
+                    <div><input type="button" name="modBtn" onclick="setMod();"
+                            id="modBtn" class="gemmyBorder"/></div>
+                </div></td> 
+                    
                 <td><div class="divTable">
                     <div>
                         <input name="pkgW_CM" type="number" placeholder="0.0" 
@@ -71,15 +81,6 @@
                     </div>
                 </div></td>
 
-                <!-- TODO: let user add a height value option -->
-                <!-- Mods: i) +1.5, +1.5, +2; ii) +2, +2, +2.5 -->
-                <td><div id="modOpt"class="divTable">
-                    <div id="opt1"></div>
-                    <div id="opt3"></div>
-                    <div id="opt2"></div>
-                    <input type="button" name="modBtn" onclick="setMod();"
-                            id="modBtn" class="gemmyBorder"/>
-                </div>
                 </td></tr>
 
             </table>
