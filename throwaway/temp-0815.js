@@ -43,3 +43,14 @@ function render() {
 
     angle += 2;
 }
+
+
+
+
+
+
+
+
+     <!-- User clicks on qty, two hidden inputs will show -->
+     <!--<input name="qtyCover" type="number"
+id="qtyCover" class=".noRange" readonly/>-->

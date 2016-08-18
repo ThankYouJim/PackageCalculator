@@ -23,8 +23,13 @@ body {
 canvas {
     background: white;
 }
-
-#package, #masterCase{
+#package {
+    float: right;
+}
+#masterCase {
+    width: 300px;
+}
+.display {
     border: 1px dashed red; /* temp */
     /*max-width: 400px;*/
     /*height: 300px;*/
@@ -32,15 +37,11 @@ canvas {
     margin: 0;
     padding: 5px;
 }
-#masterCase {
-    width: 300px;
-}
-
 
 #qtyBy {
     border: 1px dashed blue;
     width: 60px;
-    height: 20px;
+    /*height: 16px;*/
     display: inline-block;
     background-color: white;
     /*text-align: center;*/
@@ -53,7 +54,7 @@ canvas {
 }
 #qtyEff {
     width: 60px;
-    height: 20px;
+    height: 16px;
     border: 10px solid red;
     box-sizing: border-box;
     position: absolute;
@@ -116,6 +117,9 @@ th{
 
 
 /* Modifier */
+#modOpt {
+    vertical-align: bottom;
+}
 /* Makes a grey button */
 #modBtn {
     height: 1em;
