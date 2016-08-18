@@ -18,84 +18,7 @@
         </div>
 
         <!-- Two seperate windows for package and case/PDQ/Try-Me -->
-        <div id="masterCase" class="display">
-            <canvas id="caseCanvas">Master Case Canvas</canvas>
-
-            <table>
-                <tr><th></th>
-                <th>
-                    <span>Master Case | Qty: </span>
-
-                    <div id="qtyBy">
-                        <!--<div id="qtyEff"></div>
-                        <!--<div id="qtyCover">TEST</div>-->
-
-
-                    <input name="qty1" type="number" value="2" id="qty1" class="noRange">
-                    <!-- Multiply sign. Or use: &#215; -->
-                    &times;
-                    <input name="qty2" type="number" value="3" id="qty2" class="noRange">
-
-                    </div>
-                </th></tr>
-
-                <tr>
-                <td><div class="legend">
-                    <div>Width: <span id="opt1"></span></div>
-                    <div>Depth: <span id="opt3"></span></div>
-                    <div>Height:<span id="opt2"></span></div>
-                    <div>Cube:  <input type="button" name="modBtn" onclick="setMod();"
-                                        id="modBtn" class="gemmyBorder"/></div>
-                </div></td>
-                
-                <td><div class="divTable">
-                    <div>
-                        <input name="masterW_CM" type="number" placeholder="0.0"
-                               id="masterW_CM" class="cell">
-                        <span>cm</span>
-                        <input name="masterW_IN" type="number" placeholder="0.0"
-                               id="masterW_IN" class="cell noRange">
-                        <span>in</span>
-                    </div>
-                    <div>
-                        <input name="masterD_CM" type="number" placeholder="0.0"
-                               id="masterD_CM" class="cell">
-                        <span>cm</span>
-                        <input name="masterD_IN" type="number" placeholder="0.0"
-                               id="masterD_IN" class="cell noRange">
-                        <span>in</span>
-                    </div>
-                    <div>
-                        <input name="masterH_CM" type="number" placeholder="0.0"
-                               id="masterH_CM" class="cell">
-                        <span>cm</span>
-                        <input name="masterH_IN" type="number" placeholder="0.0"
-                               id="masterH_IN" class="cell noRange">
-                        <span>in</span>
-                    </div>
-                    <div>
-                        <input name="masterC_M" type="number" placeholder="0.0" readonly
-                               id="masterC_M" class="noRange noBG">
-                        <span>M</span>
-                        <input name="masterC_FT" type="number" placeholder="0.0" readonly
-                               id="masterC_FT" class="noRange noBG">
-                        <span>Ft</span>
-                    </div>
-                </div></td></tr>
-
-        </table></div>
-
-
-        <!-- TODO: let user add a height value option -->
-        <!-- Mods: i) +1.5, +1.5, +2; ii) +2, +2, +2.5 -->
-        <div id="modOpt" class="divTable">
-            
-            
-            
-            
-        </div>
-
-        <div id="package" class="display">
+        <div id="package">
             <canvas id="pkgCanvas">Package Canvas</canvas>
 
             <table>
@@ -116,25 +39,28 @@
                                id ="pkgW_CM" class="cell">
                         <span>cm</span>
                         <input name="pkgW_IN" type="number" placeholder="0.0"
-                               id="pkgW_IN" class="cell noRange">
+                               id="pkgW_IN" class="cell">
                         <span>in</span>
                     </div>
+
                     <div>
                         <input name="pkgD_CM" type="number" placeholder="0.0"
                                id="pkgD_CM" class="cell">
                         <span>cm</span>
                         <input name="pkgD_IN" type="number" placeholder="0.0"
-                               id="pkgD_IN" class="cell noRange">
+                               id="pkgD_IN" class="cell">
                         <span>in</span>
                     </div>
+
                     <div>
                         <input name="pkgH_CM" type="number" placeholder="0.0"
                                id="pkgH_CM" class="cell">
                         <span>cm</span>
                         <input name="pkgH_IN" type="number" placeholder="0.0"
-                               id="pkgH_IN" class="cell noRange">
+                               id="pkgH_IN" class="cell">
                         <span>in</span>
                     </div>
+
                     <div>
                         <input name="pkgC_M" type="number" placeholder="0.0" readonly
                                id="pkgC_M" class="noRange noBG">
@@ -143,10 +69,92 @@
                                id="pkgC_FT" class="noRange noBG">
                         <span>Ft</span>
                     </div>
-                </div></td></tr>
+                </div></td>
+
+                <!-- TODO: let user add a height value option -->
+                <!-- Mods: i) +1.5, +1.5, +2; ii) +2, +2, +2.5 -->
+                <td><div id="modOpt"class="divTable">
+                    <div id="opt1"></div>
+                    <div id="opt3"></div>
+                    <div id="opt2"></div>
+                    <input type="button" name="modBtn" onclick="setMod();"
+                            id="modBtn" class="gemmyBorder"/>
+                </div>
+                </td></tr>
 
             </table>
         </div>
+
+        <div id="masterCase">
+            <canvas id="caseCanvas">Master Case Canvas</canvas>
+
+            <table>
+                <tr><th></th>
+                <th>
+                    <span>Master Case | Qty: </span>
+
+                    <div id="qtyBy">
+                        <!--<div id="qtyEff"></div>-->
+                        <div id="qtyCover">TEST</div>
+                    </div>
+
+                        <!--<input name="qty1" type="number" value="2"
+               id="qty1" class="noRange">
+                        <!-- Multiply sign. Or use: &#215; 
+                        <!--&times;-->
+                        <!--<input name="qty2" type="number" value="3"
+               id="qty2" class="noRange">-->
+
+
+
+
+                    <!-- User clicks on qty, two hidden inputs will show -->
+                    <!--<input name="qtyCover" type="number"
+                           id="qtyCover" class=".noRange" readonly/>-->
+                    
+                </th></tr>
+
+                <tr>
+                <td><div class="legend">
+                    <div>Width:</div>
+                    <div>Depth:</div>
+                    <div>Height:</div>
+                    <div>Cube:</div>
+                </div></td>
+                
+                <td><div class="divTable">
+                    <div>
+                        <input class="input" name="masterW_CM" type="number" placeholder="0.0">
+                        <span>cm</span>
+                        <input name="masterW_IN" type="number" placeholder="0.0">
+                        <span>in</span>
+                    </div>
+
+                    <div>
+                        <input name="masterD_CM" type="number" placeholder="0.0">
+                        <span>cm</span>
+                        <input name="masterD_IN" type="number" placeholder="0.0">
+                        <span>in</span>
+                    </div>
+
+                    <div>
+                        <input name="masterH_CM" type="number" placeholder="0.0">
+                        <span>cm</span>
+                        <input name="masterH_IN" type="number" placeholder="0.0">
+                        <span>in</span>
+                    </div>
+
+                    <div>
+                        <input name="masterC_M" type="number" placeholder="0.0" readonly
+                               id="masterC_M" class="noRange noBG">
+                        <span>M</span>
+                        <input name="masterC_FT" type="number" placeholder="0.0" readonly
+                               id="masterC_FT" class="noRange noBG">
+                        <span>Ft</span>
+                    </div>
+                </div></td></tr>
+
+        </table></div>
     
         <!-- Save options: as an pop-up excel sheet / screenshot / and a clear button -->
         <div id="options">
