@@ -23,8 +23,13 @@ body {
 canvas {
     background: white;
 }
-
-#package, #masterCase{
+#package {
+    float: right;
+}
+#masterCase {
+    width: 330px;
+}
+.display {
     border: 1px dashed red; /* temp */
     /*max-width: 400px;*/
     /*height: 300px;*/
@@ -32,15 +37,11 @@ canvas {
     margin: 0;
     padding: 5px;
 }
-#masterCase {
-    width: 300px;
-}
-
 
 #qtyBy {
     border: 1px dashed blue;
     width: 60px;
-    height: 20px;
+    /*height: 16px;*/
     display: inline-block;
     background-color: white;
     /*text-align: center;*/
@@ -53,7 +54,7 @@ canvas {
 }
 #qtyEff {
     width: 60px;
-    height: 20px;
+    height: 16px;
     border: 10px solid red;
     box-sizing: border-box;
     position: absolute;
@@ -94,28 +95,22 @@ th{
     height: 25px;
 }
 
-.legend div, .divTable div {
-    height: 20px;
-    padding: 2px;
-}
 .legend {
     width: 78px;
 }
+.legend div, .divTable div, #mod div {
+    height: 20px;
+    padding: 2px;
+}
 .legend div{
-    vertical-align: middle;
     float: left;
+    /*border: 1px dotted green;*/
 }
-.divTable {
-    padding: inherit;
-}
-.divTable span {
-    display: inline-block;
-    width: 20px;
-}
-
-
-
 /* Modifier */
+/* Set the mod cells to float right*/
+.mod {
+    font-weight:normal;
+}
 /* Makes a grey button */
 #modBtn {
     height: 1em;
@@ -123,7 +118,13 @@ th{
     border-radius: 50%;
 }
 
-
+.divTable {
+    padding: inherit;
+}
+.divTable span {
+    display: inline-block;
+    width: 20px;
+}
 
 label {
     width: 90px;

@@ -43,3 +43,20 @@ function render() {
 
     angle += 2;
 }
+
+
+
+
+
+        <!-- TODO: Make an animation of the arrows and change width/depth on click -->
+        <div id="flipArrows" style="display: none">
+            &#8645;&#x21C5; <!-- up down arrow -->
+            &#8693;&#x21F5; <!-- down up arrow -->
+        </div>
+
+
+
+
+     <!-- User clicks on qty, two hidden inputs will show -->
+     <!--<input name="qtyCover" type="number"
+id="qtyCover" class=".noRange" readonly/>-->

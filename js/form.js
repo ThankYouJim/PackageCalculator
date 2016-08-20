@@ -2,6 +2,16 @@
 var modFlag = 0;
 var modValues = [1.5, 2, 2.5];
 
+/* TODO: change to constant?
+ * var constant = function(val) {
+ *   return function() {
+ *      return val;
+ *   }
+ * }
+ * a = constant(10);
+ * a(); // 10
+ */
+
 // I guess this is not quite optimal?
 function setMod() {
     var lo = 0;
@@ -20,45 +30,111 @@ function Config() {
     this.h = 0;
     this.cube = 0;
 }
-var pkg_CM = new Config(), pkg_IN = new Config(), mCase_CM = new Config(), mCase_IN = new Config();
+var pkg_IMP = new Config(), pkg_MET = new Config(), case_IMP = new Config(), case_MET = new Config();
+
+// Const values
+var IMP_MET = 2.54;
+var IMP_TO_MET_CUBE = 0.028317;
+var INCHES = 12;
+var FT_CUBE = 1728;
+var M_CUBE = 1000000;
+// Convert val(cm) to inch, and pass the value to the ele reference object
+function convertCMtoIN(ele, imperial) {
+    var metric = roundToNearest(imperial / IMP_MET);
+    ele.val(metric);
+    return metric;
+}
+
+// Convert inch to cm, and pass the value to the ele reference object
+function convertINtoCM(ele, metric) {
+    var imperial = roundToNearest(metric * IMP_MET);
+    ele.val(imperial);
+    return imperial;
+}
+
+// Round to 4 places max, but only when necessary.
+// (The number of 0's determines desired decimal places.)
+function roundToNearest(num) {
+   return Math.round((num + 0.00001) * 10000) / 10000;
+}
+
+// Calc and returns cube to 4 decimal places (if applicable)
+function calcMCube(w, d, h) {
+    return roundToNearest((w * d * h) / M_CUBE);
+}
+function calcFTCube(w, d, h) {
+    return roundToNearest((w * d * h) / FT_CUBE);
+}
 
 // All editable inputs will recalculated Imperial to Metric or vice versa on their respective pair.
 // And recalculates the cube.
 // TODO: redraw the canvas -> or resave an image and reload page to show the change.
-$('.cell').on('change', function () {
+
+// Below: JQuery version for the new 'oninput' listener
+//$("#myId").on('change keydown paste input', function () {
+//    doSomething();
+//});
+$('.cell').on('input', function () {
     console.log("DEBUG: Inside onchange.");
 
     // Detects which input is changed and updates the respective object values.
     switch (this.name) {
         // PACKAGE : IMPERIAL
-        //case 'pkgW_CM', 'pkgD_CM', 'pkgH_CM':
-        //subConvertCMtoIN();
-        case 'pkgW_CM':
-            pkg_CM.w = $('#pkgW_CM').val();
+        case 'pkg_IMP_w':
+            pkg_IMP.w = $('#pkg_IMP_w').val();
+            pkg_MET.w = convertCMtoIN($('#pkg_MET_h'), pkg_IMP.w);
             break;
-        case 'pkgD_CM':
-            pkg_CM.d = $('#pkgD_CM').val();
+        case 'pkg_IMP_d':
+            pkg_IMP.d = $('#pkg_IMP_d').val();
+            pkg_MET.d = convertCMtoIN($('#pkg_MET_d'), pkg_IMP.d);
             break;
-        case 'pkgH_CM':
-            pkg_CM.h = $('#pkgH_CM').val();
+        case 'pkg_IMP_h':
+            pkg_IMP.h = $('#pkg_IMP_h').val();
+            pkg_MET.h = convertCMtoIN($('#pkg_MET_h'), pkg_IMP.h);
             break;
 
-            // PACKAGE : METRIC
+        // PACKAGE : METRIC
+        case 'pkg_MET_h':
+            pkg_MET.w = $('#pkg_MET_h').val();
+            pkg_IMP.w = convertINtoCM($('#pkg_IMP_w'), pkg_MET.w);
+            break;
+        case 'pkg_MET_d':
+            pkg_MET.d = $('#pkg_MET_d').val();
+            pkg_IMP.d = convertINtoCM($('#pkg_IMP_d'), pkg_MET.d);
+            break;
+        case 'pkg_MET_h':
+            pkg_MET.h = $('#pkg_MET_h').val();
+            pkg_IMP.h = convertINtoCM($('#pkg_IMP_h'), pkg_MET.h);
+            break;
 
-
+            /*** CHANGING MASTER CASE VALUES WILL NOT INFLUENCE THE PACKAGE SIDE ***/
             // MASTER CASE : IMPERIAL
-            //case 'masterW_IN', 'masterD_CM', 'masterH_CM':
+            //case 'case_MET_w', 'case_IMP_d', 'case_IMP_h':
             //subConvertINtoCM();
-        case 'masterW_IN':
-            mCase_CM.w = $('#masterW_IN').val();
+        case 'case_IMP_w':
+            case_IMP.w = $('#case_MET_w').val();
+            case_MET.w = convertCMtoIN($('#case_MET_w'), case_IMP.w);
             break;
-        case 'masterD_CM':
-            mCase_CM.d = $('#masterD_CM').val();
+        case 'case_IMP_d':
+            case_IMP.d = $('#case_IMP_d').val();
+            case_MET.d = convertCMtoIN($('#case_MET_d'), case_IMP.d);
             break;
-        case 'masterH_CM':
-            mCase_CM.h = $('#masterH_CM').val();
+        case 'case_IMP_h':
+            case_IMP.h = $('#case_IMP_h').val();
+            case_MET.h = convertCMtoIN($('#case_MET_h'), case_IMP.h);
 
             // MASTER CASE : IMPERIAL
+        case 'case_MET_w':
+            case_MET.w = $('#case_MET_w').val();
+            case_IMP.w = convertINtoCM($('#case_MET_w'), case_MET.w);
+            break;
+        case 'case_MET_d':
+            case_MET.d = $('#case_MET_d').val();
+            case_IMP.d = convertINtoCM($('#case_MET_d'), case_MET.d);
+            break;
+        case 'case_MET_h':
+            case_MET.h = $('#case_MET_h').val();
+            case_IMP.h = convertINtoCM($('#case_MET_h'), case_MET.h);
 
 
         default:
@@ -66,53 +142,37 @@ $('.cell').on('change', function () {
     }
 
     // Upon getting all 3 figures, calculate the cube of the package and calculates master case
-    if (pkg_CM.w != 0 && pkg_CM.d != 0 && pkg_CM.h != 0) {
+    if ((pkg_IMP.w != 0 && pkg_IMP.d != 0 && pkg_IMP.h != 0) || (pkg_MET.w != 0 && pkg_MET.d != 0 && pkg_MET.h != 0)) {
         // Recalculates the cube when the inputs get changed
-        var itemCube = RoundToNearest(parseFloat((pkg_CM.w * pkg_CM.d * pkg_CM.h) / 1000000));
-        // Extra: Round to 4 places max, but if only necessary:
-        // original: Math.round(num * 100) / 100;
-        // itemCube = Math.round((itemCube + 0.00001) * 10000) / 10000
-        itemCube = RoundToNearest(itemCube).toFixed(4);
-        document.getElementById('pkgC_M').value = itemCube;
-        pkg_CM.cube = itemCube;
+        pkg_IMP.cube = calcMCube(pkg_IMP.w, pkg_IMP.d, pkg_IMP.h);
+        $('#pkgC_M').val(pkg_IMP.cube);
 
-        // Calculates the Master Case config 
+        pkg_MET.cube = calcFTCube(pkg_MET.w, pkg_MET.d, pkg_MET.h);
+        $('#pkgC_FT').val(pkg_MET.cube);
+        
+        // Calculates the Master Case 
         var q1, q2;
-        var opt = parseInt(document.getElementById('opt' + 1).innerHTML);
-        mCase_CM.w = pkg_CM.w * q1 + opt;
-        opt = parseInt($('opt' + 2).innerHTML);
-        mCase_CM.d = pkg_CM.d * q2 + opt;;
-        opt = parseInt($('opt' + 3).innerHTML);
-        mCase_CM.h = pkg_CM.h + opt;
+        var opt;
+        q1 = $('#qty1').val();
+        q2 = $('#qty2').val();
+        opt = parseFloat(document.getElementById('opt' + 1).innerHTML);
+        case_IMP.w = pkg_IMP.w * q1 + opt;
+        $('#case_IMP_w').val(case_IMP.w);
+        opt = parseFloat(document.getElementById('opt' + 3).innerHTML);
+        case_IMP.d = pkg_IMP.d * q2 + opt;
+        $('#case_IMP_d').val(case_IMP.d);
+        opt = parseFloat(document.getElementById('opt' + 2).innerHTML);
+        case_IMP.h = parseFloat(pkg_IMP.h) + opt;
+        $('#case_IMP_h').val(case_IMP.h);
 
+        case_IMP.cube = calcMCube(case_IMP.w, case_IMP.d, case_IMP.h);
+        $('#case_IMP_c').val(case_IMP.cube);
+        case_IMP.cube = calcMCube(case_IMP.w, case_IMP.d, case_IMP.h);
+        $('#case_MET_c').val(case_MET.cube);
     }
 
 });
 
-
-
-
-
-
-
-
-
-/* TODO: change to constant?
- * var constant = function(val) {
- *   return function() {
- *      return val;
- *   }
- * }
- * a = constant(10);
- * a(); // 10
- */
-var IMP_TO_IN = 0.028317;
-var INCHES_IN_FT = 12;
-
-function subCalcCube() {
-    var itemCube = 0;
-
-}
 
 function setQty() {
     var div = document.getElementById('qtyCover')
@@ -121,20 +181,21 @@ function setQty() {
 
 
 /* Copy'n'Paste straight from gemmy.js */
-function RoundToNearest(dblNumber) {
-    var dblTemp;
-    var lngTemp;
-    dblTemp = parseFloat(dblNumber) / 0.0001;
-    lngTemp = parseInt(dblTemp);
-    if (lngTemp == dblTemp) {
-        return dblNumber;
-    }
-    else {
-        // round up
-        dblTemp = lngTemp + 1;
-        return dblTemp * 0.0001;
-    }
-}
+// DEPRECATED
+//function RoundToNearest(dblNumber) {
+//    var dblTemp;
+//    var lngTemp;
+//    dblTemp = parseFloat(dblNumber) / 0.0001;
+//    lngTemp = parseInt(dblTemp);
+//    if (lngTemp == dblTemp) {
+//        return dblNumber;
+//    }
+//    else {
+//        // round up
+//        dblTemp = lngTemp + 1;
+//        return dblTemp * 0.0001;
+//    }
+//}
 function RoundNumber(obj) {
     if (obj.value == "")
         obj.value = "0";
@@ -282,13 +343,7 @@ function CheckNumeric(isInteger) {
 
 
 
-
-
-
-
-
 // init
 (function () {
-    setMod();
-
+    setMod();   // This has a delay than rest of the form. Uh?
 })();
