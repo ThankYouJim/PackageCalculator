@@ -2,7 +2,7 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" />
+    <IMPa charset="utf-8" />
     <title>Package Calculator</title>
 </head>
 
@@ -24,7 +24,7 @@
                     <input name="qty1" type="number" value="2" 
                             id="qty1" class="cell noRange">
                     <!-- Multiply sign. Or use: &#215; -->
-                    <span id="flip">&times;</span>
+                    <span id="times">&times;</span>
                     <input name="qty2" type="number" value="3" 
                             id="qty2" class="cell noRange">
                 </div>
@@ -33,11 +33,11 @@
             <tr>
             <td>
                 <div class="legend" style="width:100px">
-                    <!-- TODO: let user add a height value option -->
-                    <!-- Mods: i) +1.5, +1.5, +2; ii) +2, +2, +2.5 -->
-                    <div>Width:</div><div id="opt1" class="mod"></div>
-                    <div>Depth:</div><div id="opt3" class="mod"></div>
-                    <div>Height:</div><div id="opt2" class="mod"></div>
+                    <!-- Modifier: Included in the master case calculation depending on cardboard thickness -->
+                    <!-- TODO: I dunno, show as HTML value or set as input ro user can modify? -->
+                    <div>Width:</div><div id="optW" class="mod"></div>
+                    <div>Depth:</div><div id="optD" class="mod"></div>
+                    <div>Height:</div><div id="optH" class="mod"></div>
                     <div>Cube:</div><div class="mod"><input type="button" name="modBtn" onclick="setMod();" id="modBtn" class="gemmyBorder" /></div>
                 </div>
                     
@@ -45,35 +45,35 @@
                 
             <td><div class="divTable">
                 <div>
-                    <input name="case_IMP_w" type="number" placeholder="0.0"
-                            id="case_IMP_w" class="cell">
-                    <span>cm</span>
                     <input name="case_MET_w" type="number" placeholder="0.0"
-                            id="case_MET_w" class="cell noRange">
+                            id="case_MET_w" class="cell">
+                    <span>cm</span>
+                    <input name="case_IMP_w" type="number" placeholder="0.0"
+                            id="case_IMP_w" class="cell noRange">
                     <span>in</span>
                 </div>
                 <div>
-                    <input name="case_IMP_d" type="number" placeholder="0.0"
-                            id="case_IMP_d" class="cell">
-                    <span>cm</span>
                     <input name="case_MET_d" type="number" placeholder="0.0"
-                            id="case_MET_d" class="cell noRange">
-                    <span>in</span>
-                </div>
-                <div>
-                    <input name="case_IMP_h" type="number" placeholder="0.0"
-                            id="case_IMP_h" class="cell">
+                            id="case_MET_d" class="cell">
                     <span>cm</span>
-                    <input name="case_MET_h" type="number" placeholder="0.0"
-                            id="case_MET_h" class="cell noRange">
+                    <input name="case_IMP_d" type="number" placeholder="0.0"
+                            id="case_IMP_d" class="cell noRange">
                     <span>in</span>
                 </div>
                 <div>
-                    <input name="case_IMP_c" type="number" placeholder="0.0" readonly
-                            id="case_IMP_c" class="noRange noBG">
-                    <span>M</span>
+                    <input name="case_MET_h" type="number" placeholder="0.0"
+                            id="case_MET_h" class="cell">
+                    <span>cm</span>
+                    <input name="case_IMP_h" type="number" placeholder="0.0"
+                            id="case_IMP_h" class="cell noRange">
+                    <span>in</span>
+                </div>
+                <div>
                     <input name="case_MET_c" type="number" placeholder="0.0" readonly
                             id="case_MET_c" class="noRange noBG">
+                    <span>M</span>
+                    <input name="case_IMP_c" type="number" placeholder="0.0" readonly
+                            id="case_IMP_c" class="noRange noBG">
                     <span>Ft</span>
                 </div>
             </div></td>
@@ -97,35 +97,35 @@
                 
             <td><div class="divTable">
                 <div>
-                    <input name="pkg_IMP_w" type="number" placeholder="0.0" 
-                            id ="pkg_IMP_w" class="cell">
+                    <input name="pkg_MET_w" type="number" placeholder="0.0" 
+                            id ="pkg_MET_w" class="cell">
                     <span>cm</span>
-                    <input name="pkg_MET_h" type="number" placeholder="0.0"
-                            id="pkg_MET_h" class="cell noRange">
+                    <input name="pkg_IMP_w" type="number" placeholder="0.0"
+                            id="pkg_IMP_w" class="cell noRange">
                     <span>in</span>
                 </div>
                 <div>
-                    <input name="pkg_IMP_d" type="number" placeholder="0.0"
-                            id="pkg_IMP_d" class="cell">
-                    <span>cm</span>
                     <input name="pkg_MET_d" type="number" placeholder="0.0"
-                            id="pkg_MET_d" class="cell noRange">
-                    <span>in</span>
-                </div>
-                <div>
-                    <input name="pkg_IMP_h" type="number" placeholder="0.0"
-                            id="pkg_IMP_h" class="cell">
+                            id="pkg_MET_d" class="cell">
                     <span>cm</span>
-                    <input name="pkg_MET_h" type="number" placeholder="0.0"
-                            id="pkg_MET_h" class="cell noRange">
+                    <input name="pkg_IMP_d" type="number" placeholder="0.0"
+                            id="pkg_IMP_d" class="cell noRange">
                     <span>in</span>
                 </div>
                 <div>
-                    <input name="pkgC_M" type="number" placeholder="0.0" readonly
-                            id="pkgC_M" class="noRange noBG">
+                    <input name="pkg_MET_h" type="number" placeholder="0.0"
+                            id="pkg_MET_h" class="cell">
+                    <span>cm</span>
+                    <input name="pkg_IMP_h" type="number" placeholder="0.0"
+                            id="pkg_IMP_h" class="cell noRange">
+                    <span>in</span>
+                </div>
+                <div>
+                    <input name="pkg_MET_c" type="number" placeholder="0.0" readonly
+                           id="pkg_MET_c" class="noRange noBG">
                     <span>M</span>
-                    <input name="pkgC_FT" type="number" placeholder="0.0" readonly
-                            id="pkgC_FT" class="noRange noBG">
+                    <input name="pkg_IMP_c" type="number" placeholder="0.0" readonly
+                           id="pkg_IMP_c" class="noRange noBG">
                     <span>Ft</span>
                 </div>
             </div></td></tr>
@@ -142,6 +142,7 @@
 
     <!-- jQuery added just in case of downward compatibility -->
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="js/three.js"></script>
     <script src="js/form.js"></script>
     <script src="js/canvas.js"></script>
     <script>

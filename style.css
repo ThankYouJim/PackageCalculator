@@ -10,6 +10,19 @@ body {
     background: none;
 }
 
+/* Magic thing that remove the range buttons on cube inputs */
+.noRange::-webkit-outer-spin-button, .noRange::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance:textfield;
+    margin: 0;
+}
+/*.noRange {
+    -webkit-appearance: none;
+    -moz-appearance:textfield;
+}*/
+
+
+
 /* TO-FIX:Cannot get both display inline-block and align center*/
 #container {
     /*width: 700px;*/
@@ -75,6 +88,10 @@ canvas {
     width: 16px;
 }
 
+#times:hover {
+    font-weight: bold;
+}
+
 
 /*****************
  * Table things
@@ -136,18 +153,6 @@ input {
     border: 1px solid #B9B956;
     color: black;
 }
-
-/* Magic thing that remove the range buttons on cube inputs */
-.noRange::-webkit-outer-spin-button, .noRange::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance:textfield;
-    margin: 0;
-}
-/*.noRange {
-    -webkit-appearance: none;
-    -moz-appearance:textfield;
-}*/
-
 
 /* Button options */
 #options {
