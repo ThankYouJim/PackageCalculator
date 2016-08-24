@@ -33,14 +33,13 @@ body {
     padding: 5px;
 }
 
-canvas {
-    background: white;
+.canvas {
 }
 #package {
     float: right;
 }
 #masterCase {
-    width: 330px;
+    /*width: 330px;*/
 }
 .display {
     border: 1px dashed red; /* temp */
