@@ -1,159 +1,58 @@
-﻿
-    <input name="GIMItemConfig:txtItemImperialLength:txtNumeric" type="text" value="44.4881" maxlength="12" id="GIMItemConfig_txtItemImperialLength_txtNumeric" class="flatbox"
-           onkeypress="CheckNumeric()"
-           onchange="subConvertINtoC(this, 'GIMItemConfig_txtItemMetricLength_txtNumeric');
-                     subCalcItemCube()"
-           onblur="CheckNValue(this,false)">
-
-
-<input name="GIMItemConfig:txtItemMetricWeight:txtNumeric"
-    onkeypress="CheckNumeric()" 
-    onchange="subConvertKGStoLBS(this, 'GIMItemConfig_txtItemImperialWeight_txtNumeric');
-        subCalcCaseCube();"
-    onblur="CheckNValue(this, false)">
-
-
-
-
-$(document).ready(function () {
-        $("#btnExport").click(function () {
-            $("#tblExport").btechco_excelexport({
-                containerid: "tblExport"
-               , datatype: $datatype.Table
-            });
-        });
-    });
-
-
-<script>
-
-    var ele; // I dunno, an var specially for temporary document creation.
-
-    // Global canvas variables
-    var Package, MCase;
-    Package.setSize(w, h);
-    MCase.setSize(w, h);
-    var w = 400, h = 200;
-    var pkgCanvas = document.getElementById('pkgCanvas');
-    var caseCanvas = document.getElementById('caseCanvas');
-
-
-    //TEST
-    //console.log("RoundToNearest:" + RoundToNearest(19999.99));
-    //package.width = package.depth = package.height = 50;
-    //var itemCube = RoundToNearest(parseFloat((package.width * package.depth * package.height) / 12));
-    //console.log(itemCube);
-    //itemCube = ToFixed(RoundToNearest(itemCube), 4);
-    //console.log(itemCube);
-
-
-
-
-
-        function prepareQtyCover() {
-            cover.style.display = "inline";
-            hide.style.display = "none";
+﻿<!DOCTYPE>
+<html>
+<head>
+    <title>Eh</title>
+    <style>
+        body {
+            overflow:hidden;
         }
-        // Magic stuff where when the qty input is clicked, it switch to a split input form
-        // that display x * y value that equals the qty
-        // It is 6(2*3) by default
-        // TODO: smart calculation determine which config formation is optimal (via smaller cubic value?)
-        function setQtyBy() {
-            var cover = document.getElementById('qtyByCover');
-            var hide = document.getElementById('qtyByHidden');
-
-            if (cover.style.display == "inline" && hide.style.display == "none") {
-                cover.style.display = "none";
-                hide.style.display = "inline";
-            }
-            else if (cover.style.display == "none" && hide.style.display == "inline") {
-                cover.style.display = "inline";
-                hide.style.display = "none";
-            }
-        };
-
-
-
-    // Modifier buttons: click to switch between i) +1.5, +1.5, +2; ii) +2, +2, +2.5
-    // TODO: A second button let user enters other vales (use pop-up window?)
-    //var modValues = [1.5, 2, 2.5];
-    //var modOpt = document.getElementById('modOpt');
-    //var flag = 1;
-
-    //ele = document.createElement('div');
-    //ele.innerHTML = modValues[flag];
-    //modOpt.appendChild(ele);
-    //ele = document.createElement('div');
-    //ele.innerHTML = modValues[flag];
-    //modOpt.appendChild(ele);
-    //ele = document.createElement('div');
-    //ele.innerHTML = modValues[flag + 1];
-    //modOpt.appendChild(ele);
-
-    //ele = document.createElement('button');
-    //ele.setAttribute('name', 'modBtn');
-    //ele.setAttribute('id', 'modBtn');
-    //ele.setAttribute('class', 'gemmyBorder');
-    //ele.setAttribute('onclick', function () {
-    //    flag = 1 - flag;
-    //});
-    //modOpt.appendChild(ele);
-
-    //ele = 0; // clear ele
-
-    (function () {
-        if (pkgCanvas.getContext && caseCanvas.getContext) {
-            Package = new CanvasForm(pkgCanvas, pkgCanvas.getContext('2d'));
-
-            Package.c.save();
-            Package.c.fillStyle = "rgb(50,50,50)";
-            Package.c.fillRect(0, 0, w, h);
-            Package.c.restore();
-            //Package.setColor("rgb(50,50,250)");
-
-            MCase = new CanvasForm(caseCanvas, caseCanvas.getContext('2d'));
-            render();
-            //setInterval(render, 30);
-
+        div {
+            border:1px dashed red;
+            display:inline-block;
         }
-        else { alert('Cannot get canvas context'); }
+    </style>
+</head>
+<body>
+<!-- TODO: Make an animation of the arrows and change width/depth on click -->
+<div id="flipArrows" style="display: none">
+    &#8645;&#x21C5; <!-- up down arrow -->
+    &#8693;&#x21F5; <!-- down up arrow -->
+</div>
+    <!--<div id="caseCanvas"></div>-->
+    <div id="pkgCanvas"></div>
 
-    })();
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="../js/three.min.js"></script>
 
-    var angle = 75;
-    function render() {
-        var t = [];
+    <script>
+        // standard global variables
+        var container, scene, camera, renderer, controls, stats;
 
-        //Package.c.clearRect(0, 0, w, h);
-        //MCase.c.clearRect(0, 0, w, h);
+        // custom
+        var mesh;
 
-        for (var i = 0; i < axis_vertices.length; i++) {
-            var v = axis_vertices[i];
-            var r = v.rotateX(angle).rotateY(angle).rotateZ(angle);
-            var p = r.project(w, h, 128, 3.5);
-            t.push(p);
+        init();
+        animate();
+
+        function init() {
+            // SCENE
+            scene = new THREE.Scene();
+            // CAMERA
+            //var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+            var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
+            var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 10000;
+            camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+            scene.add(camera);
+            camera.position.set(0, 150, 400);
+            camera.lookAt(scene.position);
+            renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            container = document.getElementById('ThreeJS');
+            container.appendChild(renderer.domElement);
+            // CONTROLS
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
         }
 
-        Package.c.save();
-        // Origin point for reference
-        drawPoint(Package.c, t[0].x, t[0].y, 3, "black");
+    </script>
 
-        // for each axis: which are 3 of them
-        drawLine(Package.c, t[0], t[1], 1, red);
-        drawLine(Package.c, t[0], t[2], 1, green);
-        drawLine(Package.c, t[0], t[3], 1, blue);
-        Package.c.restore();
-
-        angle += 2;
-    }
-
-
-    //$('#saveAsExcelBtn').on('click', function () {
-    //    alert("Excel");
-    //});
-
-    // I dunno man, too hard?
-    //$('#saveScreenBtn').on('click', function () {
-    //    alert('Screenshot');
-    //});
-</script>
+</body>
+</html>

@@ -1,5 +1,4 @@
-﻿
-var w = 400, h = 200; // width and height for both canvases
+﻿var w = 400, h = 200; // width and height for both canvases
 var angle = 0;
 
 var Package = new CanvasForm();
@@ -45,11 +44,38 @@ function render() {
 }
 
 
+//$('#saveAsExcelBtn').on('click', function () {
+//    alert("Excel");
+//});
 
 
 
-        <!-- TODO: Make an animation of the arrows and change width/depth on click -->
-        <div id="flipArrows" style="display: none">
-            &#8645;&#x21C5; <!-- up down arrow -->
-            &#8693;&#x21F5; <!-- down up arrow -->
-        </div>
+// Magic stuff where when the qty input is clicked, it switch to a split input form
+// that display x * y value that equals the qty
+// It is 6(2*3) by default
+// TODO: smart calculation determine which config formation is optimal (via smaller cubic value?)
+function setQtyBy() {
+    var cover = document.getElementById('qtyByCover');
+    var hide = document.getElementById('qtyByHidden');
+
+    if (cover.style.display == "inline" && hide.style.display == "none") {
+        cover.style.display = "none";
+        hide.style.display = "inline";
+    }
+    else if (cover.style.display == "none" && hide.style.display == "inline") {
+        cover.style.display = "inline";
+        hide.style.display = "none";
+    }
+};
+
+
+
+
+$(document).ready(function () {
+    $("#btnExport").click(function () {
+        $("#tblExport").btechco_excelexport({
+            containerid: "tblExport"
+           , datatype: $datatype.Table
+        });
+    });
+});
