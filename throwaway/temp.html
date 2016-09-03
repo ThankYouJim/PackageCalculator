@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Eh</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
         body {
             overflow:hidden;
@@ -9,6 +10,7 @@
         div {
             border:1px dashed red;
             display:inline-block;
+            z-index: 1;
         }
     </style>
 </head>
@@ -23,35 +25,77 @@
 
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <script src="../js/three.min.js"></script>
+    <script src="../js/controls/OrbitControls.js"></script>
 
     <script>
         // standard global variables
-        var container, scene, camera, renderer, controls, stats;
+        var WIDTH = 400, HEIGHT = 300;
+        var container, scene, camera, renderer;
+        var controls;
 
         // custom
-        var mesh;
+        var pkg, master;
+        var axis;
 
         init();
-        animate();
+        render();
+        //animate();
 
         function init() {
             // SCENE
             scene = new THREE.Scene();
+
             // CAMERA
-            //var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-            var SCREEN_WIDTH = 400, SCREEN_HEIGHT = 300;
-            var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 10000;
+            var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 0.1, FAR = 10000;
             camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
             scene.add(camera);
-            camera.position.set(0, 150, 400);
+            camera.position.set(150, 150, 400);
             camera.lookAt(scene.position);
-            renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-            container = document.getElementById('ThreeJS');
-            container.appendChild(renderer.domElement);
-            // CONTROLS
+
+            var box = new THREE.BoxGeometry(1, 1, 1);
+            // NOTE: Face [4] & [5] is the top most cube face
+            // makes random colors for each cube face
+            for (var i = 0; i < box.faces.length; i += 2) {
+                var hex = Math.random() * 0xffffff;
+                box.faces[i].color.setHex(hex);
+                box.faces[i + 1].color.setHex(hex); // since each cube face is made up of 2 triangles
+            }
+
+            var material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors, overdraw: 0.5 });
+
+            //var material = new THREE.MeshBasicMaterial({ wireframe: true });
+            pkg = new THREE.Mesh(box, material);
+            pkg.position.set(0, 0, 0);
+            pkg.scale.set(120, 120, 120); // change to pkg_values
+            scene.add(pkg);
+
+            axis = new THREE.AxisHelper(50);
+            axis.position.x = -200; // TODO: make it so it's abt a constant distance from the box object?
+            scene.add(axis);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(WIDTH, HEIGHT);
+
+            // controls
             controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.addEventListener('change', render);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.9;
+
+            container = document.getElementById('pkgCanvas');
+            container.appendChild(renderer.domElement);
         }
 
+        //function animate() {
+        //    requestAnimationFrame(animate);
+        //    render();
+        //}
+
+        function render() {
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
     </script>
 
 </body>
