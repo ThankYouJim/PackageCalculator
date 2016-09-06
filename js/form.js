@@ -75,9 +75,13 @@ function Config() {
     this.cube = 0;
 }
 
+function calcQty() {
+    document.getElementById('qtyCover').innerHTML = $('#qty1').val() * $('#qty2').val();
+}
 function setQty(a, b) {
     $('#qty1').val(a);
     $('#qty2').val(b);
+    calcQty();
 }
 
 // On button clicked: change appeared modifier values (CM) = [1.5, 2, 2.5];
@@ -123,6 +127,7 @@ function updateMCase() {
 	var opt;
 	var q1 = $('#qty1').val();
 	var q2 = $('#qty2').val();
+	calcQty();
 	
 	if (pkg_MET.cube != 0) {
         // W
@@ -163,7 +168,7 @@ function setDefault() {
     pkg_MET.cube = calcMCube(pkg_MET.w, pkg_MET.d, pkg_MET.h);
     //pkg_IMP.cube = calcFTCube(pkg_IMP.w, pkg_IMP.d, pkg_IMP.h);
 
-    updateMCase();
+    //updateMCase();
 }
 
 // Below: JQuery version for the new 'oninput' listener
@@ -248,6 +253,7 @@ $('#times').on('click', function () {
 	temp = $('#qty1').val();
 	$('#qty1').val($('#qty2').val());
 	$('#qty2').val(temp);
+	calcQty();
 	
 	updateMCase();
 });

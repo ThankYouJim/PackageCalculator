@@ -33,10 +33,8 @@ body {
     padding: 5px;
 }
 
-.canvas {
-}
 #package {
-    float: right;
+    /*float: right;*/
 }
 #masterCase {
     /*width: 330px;*/
@@ -51,23 +49,18 @@ body {
 }
 
 #qtyBy {
-    border: 1px dashed blue;
+    /*border: 1px dashed blue;*/
     width: 60px;
     /*height: 16px;*/
     display: inline-block;
-    background-color: white;
-    /*text-align: center;*/
+    background-color: none;
 }
-#qtyBy div {
-    font-weight: normal;
-    position: relative;
-    z-index: 2;
-    transition: all .5s ease;
-}
+/* TODO: Ok now this block retracts upwards so might as well change to retract to left */
 #qtyEff {
     width: 60px;
-    height: 16px;
-    border: 10px solid red;
+    /*height: 16px;*/
+    border: 10px solid #f3f3ca;
+    /*border: 10px solid blue;*/
     box-sizing: border-box;
     position: absolute;
     z-index: 1;
@@ -76,21 +69,28 @@ body {
 #qtyBy:hover #qtyEff {
     border: 0px solid #f3f3ca;
 }
-#qtyBy:hover div {
-    
-}
-
 #qtyCover {
+    width: 60px;
+    font-weight: normal;
+    /*border: 1px solid #f3f3ca;*/
+    /*border: 1px solid red;*/
+    box-sizing: border-box;
+    line-height: 18px;
+    text-align: left;
+    padding-left: 4px;
+    position: absolute;
     z-index: 2;
+    transition: all .5s ease;
+}
+#qtyBy:hover #qtyCover{
+    /*top: -18px;*/
+    font-size:0;
 }
 #qty1, #qty2 {
     width: 16px;
+    text-align: center;
+    outline: none;
 }
-
-#times:hover {
-    font-weight: bold;
-}
-
 
 /*****************
  * Table things
