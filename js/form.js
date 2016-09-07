@@ -20,8 +20,8 @@ var INCHES = 12;
 var FT_CUBE = 1728;
 var M_CUBE = 1000000;
 
-// DEFAULT VALUES
-var DEFAULT = {
+// PKG_DEFAULT VALUES
+var PKG_DEFAULT = {
     w: 20,
     d: 10,
     h: 23,
@@ -151,24 +151,24 @@ function updateMCase() {
 }
 
 function setDefault() {
-    setQty(DEFAULT.q1, DEFAULT.q2);
+    setQty(PKG_DEFAULT.q1, PKG_DEFAULT.q2);
 
-    $('#pkg_MET_w').val(DEFAULT.w);
-    pkg_MET.w = DEFAULT.w;
+    $('#pkg_MET_w').val(PKG_DEFAULT.w);
+    pkg_MET.w = PKG_DEFAULT.w;
     //pkg_IMP.w = updateImperialCell($('#pkg_IMP_w'), pkg_MET.w);
 
-    $('#pkg_MET_d').val(DEFAULT.d);
-    pkg_MET.d = DEFAULT.d;
+    $('#pkg_MET_d').val(PKG_DEFAULT.d);
+    pkg_MET.d = PKG_DEFAULT.d;
     //pkg_IMP.d = updateImperialCell($('#pkg_IMP_d'), pkg_MET.d);
 
-    $('#pkg_MET_h').val(DEFAULT.h);
-    pkg_MET.h = DEFAULT.h;
+    $('#pkg_MET_h').val(PKG_DEFAULT.h);
+    pkg_MET.h = PKG_DEFAULT.h;
     //pkg_IMP.h = updateImperialCell($('#pkg_IMP_h'), pkg_MET.h);
 
     pkg_MET.cube = calcMCube(pkg_MET.w, pkg_MET.d, pkg_MET.h);
     //pkg_IMP.cube = calcFTCube(pkg_IMP.w, pkg_IMP.d, pkg_IMP.h);
 
-    //updateMCase();
+    updateMCase();
 }
 
 // Below: JQuery version for the new 'oninput' listener

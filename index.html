@@ -14,7 +14,7 @@
         <!-- MASTER CASE/PDQ/TRY-ME SIDE -->
         <div id="masterCase" class="display">
             <div id="caseCanvas" class="canvas"></div>
-            <!--<canvas id="caseCanvas">Master Case Canvas</canvas>-->
+            <canvas id="caseCanvas">Master Case Canvas</canvas>
 
             <table>
             <tr><th></th><th><span>Master Case | Qty: </span>
@@ -83,7 +83,7 @@
         <!-- PACKAGE SIDE -->
         <div id="package" class="display">
             <div id="pkgCanvas" class="canvas"></div>
-            <!--<canvas id="pkgCanvas">Package Canvas</canvas>-->
+            <canvas id="pkgCanvas">Package Canvas</canvas>
 
             <table>
             <tr><th></th><th colspan="2">Package</th></tr>
@@ -148,7 +148,20 @@
     <script src="js/form.js"></script>
     <!--<script src="js/canvas.js"></script>-->
     <script>
+        // 'VIEW' UPDATE
+        this.init();
 
+        function init() {
+            mCase.scale.set($('#case_MET_w'), $('#case_MET_d'), $('#case_MET_h'));
+            render();
+        }
+
+
+        (function () {
+            $('.cell').on('input', function () {
+                render();
+            });
+        });
     </script>
 
 </body>
